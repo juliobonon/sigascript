@@ -20,9 +20,12 @@ class bot():
     def site_login(self): 
         self.driver.get("https://siga.cps.sp.gov.br/aluno/login.aspx?") #pega a url do siga e passa pro driver
         time.sleep(2)
-        self.driver.find_element_by_id("vSIS_USUARIOID").send_keys(self.final_data['username']) #pega as informações sobre o login
-        self.driver.find_element_by_id("vSIS_USUARIOSENHA").send_keys(self.final_data['password']) #input de senha
-        self.driver.find_element_by_name("BTCONFIRMA").click()
+        try:
+            self.driver.find_element_by_id("vSIS_USUARIOID").send_keys(self.final_data['username']) #pega as informações sobre o login
+            self.driver.find_element_by_id("vSIS_USUARIOSENHA").send_keys(self.final_data['password']) #input de senha
+            self.driver.find_element_by_name("BTCONFIRMA").click()
+        except:
+            print("Login failed")
 
     def find_page(self):
         time.sleep(2)
@@ -37,6 +40,7 @@ class bot():
         notas = self.driver.find_element_by_tag_name('tbody')
         html = notas.get_attribute("innerHTML")
         soup = BeautifulSoup(html, 'html.parser')
+        dict = {}
         for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
             for grade in soup.find_all("tr", {"id": "Grid3ContainerRow_000"+str(i)}):
                 cont = soup.find("table", {"id": "Grid2Container_000" +str(i) + "Tbl"})
@@ -44,8 +48,11 @@ class bot():
                 for item in cont.find_all("tr", {"class": "tableborderOdd"}):
                     for subitem in item.find_all("span", {"class": "ReadonlyAttribute"}):
                         print(subitem.text)
+                        #dict['id'] = i
+                        #dict['id']['info'] = subitem.text
                 print(i)
                 print('\n')
+                
 
-        #for grade in grades.find("span", {"class": "span_CTLACD_DISCIPLINASIGLA1_0007"}): 
+        print(dict)
         self.driver.close()

@@ -6,8 +6,51 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  List<String> grades = ['Algoritmos', 'Engenharia de Software'];
+  String grade;
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        body: ListView.builder(
+      padding: EdgeInsets.all(10),
+      itemCount: grades.length,
+      itemBuilder: (context, index) {
+        grade = grades[index];
+        return Grade(name: grade);
+      },
+    ));
+  }
+}
+
+class Grade extends StatefulWidget {
+  Grade({Key key, this.name}) : super(key: key);
+
+  final String name;
+
+  @override
+  _GradeState createState() => _GradeState();
+}
+
+class _GradeState extends State<Grade> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 10,
+      ),
+      child: Container(
+        width: 200,
+        height: 80,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.grey[200]),
+        child: Center(
+          child: Text(
+            widget.name,
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+      ),
+    );
   }
 }
