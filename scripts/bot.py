@@ -40,7 +40,7 @@ class bot():
         notas = self.driver.find_element_by_tag_name('tbody')
         html = notas.get_attribute("innerHTML")
         soup = BeautifulSoup(html, 'html.parser')
-        dict = {}
+        list = []
         for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
             for grade in soup.find_all("tr", {"id": "Grid3ContainerRow_000"+str(i)}):
                 cont = soup.find("table", {"id": "Grid2Container_000" +str(i) + "Tbl"})
@@ -48,11 +48,17 @@ class bot():
                 for item in cont.find_all("tr", {"class": "tableborderOdd"}):
                     for subitem in item.find_all("span", {"class": "ReadonlyAttribute"}):
                         print(subitem.text)
-                        #dict['id'] = i
-                        #dict['id']['info'] = subitem.text
+                        dict = {}
+                        dict['id'] = i
+                        dict['gradename'] = grade.text
+                        if subitem.text.isnumeric() == True:
+                            dict['grade'] = subitem.text
+                        else:
+                            dict['job'] = subitem.text
+                        list.append(dict)
                 print(i)
                 print('\n')
                 
 
-        print(dict)
+        print(list)
         self.driver.close()

@@ -6,19 +6,53 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<String> grades = ['Algoritmos', 'Engenharia de Software'];
+  List<String> grades = [
+    'Algoritmos',
+    'Engenharia de Software',
+    'Inteligência Artificial'
+  ];
   String grade;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-      padding: EdgeInsets.all(10),
-      itemCount: grades.length,
-      itemBuilder: (context, index) {
-        grade = grades[index];
-        return Grade(name: grade);
-      },
+        body: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 40,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('imgs/grade.png'),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Notas",
+                style: TextStyle(color: Colors.black, fontSize: 45),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: ListView.builder(
+              padding: EdgeInsets.all(10),
+              itemCount: grades.length,
+              itemBuilder: (context, index) {
+                grade = grades[index];
+                return Grade(name: grade);
+              },
+            ),
+          ),
+        ),
+      ],
     ));
   }
 }
@@ -47,7 +81,7 @@ class _GradeState extends State<Grade> {
         child: Center(
           child: Text(
             widget.name,
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontSize: 20),
           ),
         ),
       ),
