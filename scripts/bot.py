@@ -34,7 +34,6 @@ class bot():
         time.sleep(2)
 
     def parse_grades(self):
-        self.site_login()
         time.sleep(2)
         self.driver.get("https://siga.cps.sp.gov.br/aluno/notasparciais.aspx")
         ##notas = driver.find_element_by_id("span_CTLACD_PLANOENSINOAVALIACAOPARCIALNOTA_000100040001")
@@ -47,21 +46,19 @@ class bot():
                 cont = soup.find("table", {"id": "Grid2Container_000" +str(i) + "Tbl"})
                 print(grade.text)
                 for item in cont.find_all("tr", {"class": "tableborderOdd"}):
-                    for subitem in item.find_all("span", {"class": "ReadonlyAttribute"}):
-                        print(subitem.text)
-                        dict = {}
-                        dict['id'] = str(i)
-                        dict['gradename'] = grade.text
-                        try:
-                            if ',' in subitem.text:
-                                var = subitem.text.replace(",", ".")
-                                float(var)
-                                dict['grade'] = var
-                            else:
-                                float(subitem.text)
-                        except:
-                            dict['job'] = subitem.text
-                        list.append(dict)
+                    dict = {}
+                    gradename = item.find("td", {"valign": "top"})
+                    grade_number = item.find("td", {"valign": "middle"})
+                    dict['id'] = str(i)
+                    gradenameformatted = gradename.text
+                    try:
+                        grade_number_formatted = grade_number.text
+                    except:
+                        grade_number_formatted = "Sem Nota"
+                    dict['grade'] = grade.text
+                    dict['gradename'] = gradenameformatted
+                    dict['gradenumber'] = grade_number_formatted
+                    list.append(dict)
                 print(i)
                 print('\n')
         self.driver.close()

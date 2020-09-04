@@ -19,17 +19,19 @@ List<Photo> parsePhotos(String responseBody) {
 }
 
 class Photo {
+  final String grade;
   final String gradename;
+  final String gradenumber;
   final String id;
-  final String job;
 
-  Photo({this.gradename, this.id, this.job});
+  Photo({this.grade, this.gradename, this.gradenumber, this.id});
 
   factory Photo.fromJson(Map<String, dynamic> json) {
     return Photo(
+      grade: json['grade'] as String,
       gradename: json['gradename'] as String,
+      gradenumber: json['gradenumber'] as String,
       id: json['id'] as String,
-      job: json['job'] as String,
     );
   }
 }
@@ -69,56 +71,60 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 40,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('imgs/grade.png'),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "Notas",
-                style: TextStyle(color: Colors.black, fontSize: 45),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: ListView.builder(
-              padding: EdgeInsets.all(10),
-              itemCount: widget.photos.length,
-              itemBuilder: (context, int index) {
-                return Grade(
-                  gradename: widget.photos[index].gradename,
-                  id: widget.photos[index].id,
-                  job: widget.photos[index].job,
-                );
-              },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 40,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('imgs/grade.png'),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Notas",
+                  style: TextStyle(color: Colors.black, fontSize: 45),
+                ),
+              ],
             ),
           ),
-        ),
-      ],
-    ));
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
+                itemCount: widget.photos.length,
+                itemBuilder: (context, int index) {
+                  return Grade(
+                    grade: widget.photos[index].grade,
+                    gradename: widget.photos[index].gradename,
+                    gradenumber: widget.photos[index].gradenumber,
+                    id: widget.photos[index].id,
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class Grade extends StatefulWidget {
-  Grade({Key key, this.gradename, this.id, this.job}) : super(key: key);
+  Grade({Key key, this.grade, this.gradename, this.gradenumber, this.id})
+      : super(key: key);
 
+  final String grade;
   final String gradename;
+  final String gradenumber;
   final String id;
-  final String job;
 
   @override
   _GradeState createState() => _GradeState();
@@ -133,17 +139,34 @@ class _GradeState extends State<Grade> {
       ),
       child: Container(
         width: 200,
-        height: 80,
+        height: 160,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.grey[200]),
-        child: Center(
-          child: Column(
-            children: [
-              Text(
-                widget.gradename,
-                style: TextStyle(color: Colors.black, fontSize: 20),
-              ),
-            ],
+            borderRadius: BorderRadius.circular(10), color: Colors.grey[300]),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Column(
+              children: [
+                Text(
+                  widget.grade,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  widget.gradename,
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+                Text(
+                  widget.gradenumber,
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+              ],
+            ),
           ),
         ),
       ),
