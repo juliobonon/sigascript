@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sigascript/mainpage.dart';
+import 'package:sigascript/test.dart';
 
 void main() {
   runApp(MyApp());
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainPage()));
+                      MaterialPageRoute(builder: (context) => Pelando()));
                 },
               ),
             ),

@@ -34,6 +34,7 @@ class bot():
         time.sleep(2)
 
     def parse_grades(self):
+        self.site_login()
         time.sleep(2)
         self.driver.get("https://siga.cps.sp.gov.br/aluno/notasparciais.aspx")
         ##notas = driver.find_element_by_id("span_CTLACD_PLANOENSINOAVALIACAOPARCIALNOTA_000100040001")
@@ -49,16 +50,19 @@ class bot():
                     for subitem in item.find_all("span", {"class": "ReadonlyAttribute"}):
                         print(subitem.text)
                         dict = {}
-                        dict['id'] = i
+                        dict['id'] = str(i)
                         dict['gradename'] = grade.text
-                        if subitem.text.isnumeric() == True:
-                            dict['grade'] = subitem.text
-                        else:
+                        try:
+                            if ',' in subitem.text:
+                                var = subitem.text.replace(",", ".")
+                                float(var)
+                                dict['grade'] = var
+                            else:
+                                float(subitem.text)
+                        except:
                             dict['job'] = subitem.text
                         list.append(dict)
                 print(i)
                 print('\n')
-                
-
-        print(list)
         self.driver.close()
+        return list
