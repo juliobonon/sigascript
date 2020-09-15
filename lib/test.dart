@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Photo>> fetchPhotos(http.Client client) async {
-  final response = await client.get('http://192.168.15.12:5000/grades');
+  final response = await client.get('http://192.168.15.10:5000/grades');
 
   // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parsePhotos, response.body);
@@ -141,7 +141,9 @@ class _GradeState extends State<Grade> {
         width: 200,
         height: 160,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.grey[300]),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.grey[300],
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
