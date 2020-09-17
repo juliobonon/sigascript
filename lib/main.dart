@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:sigascript/home.dart';
-import 'package:sigascript/mainpage.dart';
-import 'package:sigascript/test.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -57,12 +54,12 @@ class _HomePageState extends State<HomePage> {
           child: AlertDialog(
             title: Text("Erro de Login"),
             content: Text(
-                "Verifique suas credenciais e sua conexão e tente novamente"),
+                "Verifique suas credenciais e sua conexão e tente novamente."),
             actions: [
               FlatButton(
                 child: Text("Ok"),
-                onPressed: () {},
-              )
+                onPressed: () => Navigator.pop(context, true),
+              ),
             ],
           ));
     }
