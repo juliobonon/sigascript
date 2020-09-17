@@ -43,11 +43,33 @@ class Bot():
         img = imgtable.find("img")
         spantable = soup.find("table", {"class": "Tb_CorpoCaixas"})
         span_nome = spantable.find("span", {"id": "span_MPW0041vPRO_PESSOALNOME"})
+        span_ra = spantable.find("span",{"id": "span_MPW0041vACD_ALUNOCURSOREGISTROACADEMICOCURSO"})
+        source = img['src'].replace('https:\\\\', 'https://')
+        span_pp = spantable.find("span",{"id": "span_MPW0041vACD_ALUNOCURSOINDICEPP"})
+        span_pr = spantable.find("span", {"id": "span_MPW0041vACD_ALUNOCURSOINDICEPR"})
+        div_grades = soup.find("div", {"id": "ygtv21"})
+        list = []
+        for item in div_grades.find_all("span", {"class": "NodeTextDecoration"}):
+            grade = item.text
+            list.append(grade)
+
         dict = {
-            'img': img['src'], 
-            'nome': span_nome.text
+            'img': source,
+            'nome': span_nome.text,
+            'ra': span_ra.text,
+            'pp': span_pp.text,
+            'pr': span_pr.text,
+
         }
-        print(dict)
+        
+        i = 1
+        for item in div_grades.find_all("span", {"class": "NodeTextDecoration"}):
+            grade = item.text
+            i = i  + 1
+            update = {"grade" + str(i): grade}
+            dict.update(update)
+
+        return dict
         
     def parse_grades(self):
         time.sleep(2)
@@ -96,4 +118,4 @@ class Bot():
                 new_list.append(dict)
         
         print(new_list)
-    
+

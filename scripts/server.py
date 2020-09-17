@@ -13,11 +13,17 @@ def home():
 def api_gatry():
     return jsonify(list), 200
 
+@app.route('/profile', methods=['GET'])
+def profile():
+    bot = Bot()
+    list = bot.get_profile_data()
+    return jsonify(list), 200
+
 @app.route('/login', methods=['POST'])
 def login():
+    bot = Bot()
     login = request.form.get('rg')
     password = request.form.get('password')
-    bot = Bot()
 
     msg = ''
     if (bot.site_login(login, password) == 0):
@@ -27,9 +33,6 @@ def login():
         msg = 'Failure'
         return jsonify(msg), 404
 
-    
-       
-    
 if __name__ == "__main__":
     ip = sys.argv[1]
     app.run(host=ip)
