@@ -33,6 +33,13 @@ def login():
         msg = 'Failure'
         return jsonify(msg), 404
 
+@app.route('/presences', methods=['GET'])
+def presences():
+    bot = Bot()
+    list = []
+    list = bot.absent()
+    return jsonify(list), 200
+
 if __name__ == "__main__":
     ip = sys.argv[1]
     app.run(host=ip)

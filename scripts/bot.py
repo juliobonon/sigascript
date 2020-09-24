@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import json
 import time
 import warnings
+import tools
 
 class Bot():
     warnings.filterwarnings('ignore')
@@ -11,9 +12,6 @@ class Bot():
     options.add_argument('headless')
     options.add_argument('window-size=1920x1080')
     driver = webdriver.Chrome('./chromedriver', chrome_options=options)
-    file =  open('settings.json', 'r')
-    data = json.load(file)
-    final_data = data['settings']
     GRID_CONTAINER_START = 1
     GRID_CONTAINER_FINAL = 8
 
@@ -53,9 +51,12 @@ class Bot():
             grade = item.text
             list.append(grade)
 
+        span_nome_lower = span_nome.text.lower()
+        span_nome_final = tools.capitalizeString(span_nome_lower)
+        
         dict = {
             'img': source,
-            'nome': span_nome.text,
+            'nome': span_nome_final,
             'ra': span_ra.text,
             'pp': span_pp.text,
             'pr': span_pr.text,
@@ -118,4 +119,27 @@ class Bot():
                 new_list.append(dict)
         
         print(new_list)
+
+    def absent(self):
+        self.driver.get('https://siga.cps.sp.gov.br/aluno/faltasparciais.aspx')
+        faltas = self.driver.find_element_by_id('Grid1ContainerTbl')
+        html = faltas.get_attribute("innerHTML")
+        soup = BeautifulSoup(html, 'html.parser')
+        list = []
+        for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
+            for grade in soup.find_all("tr", {"id": "Grid1ContainerRow_000"+str(i)}):
+                print(grade.text)
+                cont = grade.find("span", {"id": "span_vACD_DISCIPLINANOME_000" +str(i)})
+                presence = grade.find("span", {"id":"span_vPRESENCAS_000" + str(i)})
+                absence = grade.find("span", {"id":"span_vAUSENCIAS_000" + str(i)})
+                dict = {
+                    'grade': cont.text,
+                    'presences': presence.text,
+                    'absences': absence.text
+                }
+                list.append(dict)
+            print(i)
+            print('\n')    
+        return list
+
 
