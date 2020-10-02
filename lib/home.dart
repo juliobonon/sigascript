@@ -129,11 +129,14 @@ class ProfileBox extends StatelessWidget {
           color: Colors.grey[800],
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Positioned(
-              left: 125,
-              top: 70,
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 30,
+              ),
               child: CircleAvatar(
                 radius: 75,
                 backgroundColor: Colors.grey[800],
@@ -148,7 +151,6 @@ class ProfileBox extends StatelessWidget {
               left: 117,
               child: Text(
                 name,
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Lato',
                   color: Colors.white,
@@ -169,9 +171,13 @@ class ProfileBox extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 110,
-              right: 75,
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 70,
+              ),
               child: LinearPercentIndicator(
                 animation: true,
                 animationDuration: 2500,
@@ -195,9 +201,11 @@ class ProfileBox extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 80,
-              right: 75,
+            SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 70,
+              ),
               child: LinearPercentIndicator(
                 animation: true,
                 animationDuration: 2500,
@@ -221,7 +229,34 @@ class ProfileBox extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 20),
+            Container(
+              width: 200,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: FlatButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.info_outline),
+                    Center(
+                      child: Text(
+                        "Meus Dados",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 23,
+                          fontFamily: 'Lato',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

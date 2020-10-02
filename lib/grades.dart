@@ -153,14 +153,23 @@ class _GradeContainerState extends State<GradeContainer> {
                     ),
                     child: Row(
                       children: [
-                        Image.asset('imgs/check.png'),
-                        Text(
-                          widget.presences,
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 20,
-                          ),
-                        ),
+                        Column(
+                          children: [
+                            Image.asset('imgs/check.png'),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                              ),
+                              child: Text(
+                                'Presenças:' + widget.presences,
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -170,14 +179,23 @@ class _GradeContainerState extends State<GradeContainer> {
                     ),
                     child: Row(
                       children: [
-                        Image.asset('imgs/remove.png'),
-                        Text(
-                          'Faltas' + widget.absences,
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 20,
-                          ),
-                        ),
+                        Column(
+                          children: [
+                            Image.asset('imgs/remove.png'),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                              ),
+                              child: Text(
+                                'Faltas:' + widget.absences,
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

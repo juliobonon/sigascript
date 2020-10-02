@@ -24,7 +24,42 @@ class _RouteManagerState extends State<RouteManager> {
             ),
             child: IconButton(
               icon: Icon(Icons.info),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        width: 300,
+                        height: 350,
+                        child: Column(
+                          children: [
+                            Image.asset('imgs/cps.png'),
+                            Text(
+                              "Sobre o Projeto",
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Esse aplicativo não tem acesso ao banco de dados do SIGA, todos os dados são obtidos a partir de um script.",
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                      ),
+                      actions: [
+                        RaisedButton(
+                          child: Text("Ok"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],
