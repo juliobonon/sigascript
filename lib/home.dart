@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 Future<Profile> fetchProfile() async {
-  var url = 'http://192.168.15.10:5000';
+  var url = 'https://siga-fatec.herokuapp.com/';
   final response = await http.get('$url/profile');
 
   if (response.statusCode == 200) {
@@ -26,11 +26,8 @@ class Profile {
   String urlImage;
   String pp;
   String pr;
-  String grade3;
-  String grade4;
-  String grade5;
-  String grade6;
-  String grade7;
+  String courseName;
+  String period;
 
   Profile({
     this.name,
@@ -38,11 +35,8 @@ class Profile {
     this.urlImage,
     this.pp,
     this.pr,
-    this.grade3,
-    this.grade4,
-    this.grade5,
-    this.grade6,
-    this.grade7,
+    this.courseName,
+    this.period,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -52,11 +46,8 @@ class Profile {
       urlImage: json['img'],
       pp: json['pp'],
       pr: json['pr'],
-      grade3: json['grade3'],
-      grade4: json['grade4'],
-      grade5: json['grade5'],
-      grade6: json['grade6'],
-      grade7: json['grade7'],
+      courseName: json['course'],
+      period: json['period'],
     );
   }
 }
@@ -89,10 +80,14 @@ class _HomeState extends State<Home> {
                 ra: snapshot.data.ra,
                 pp: snapshot.data.pp,
                 pr: snapshot.data.pr,
+                course: snapshot.data.courseName,
+                period: snapshot.data.period,
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
@@ -108,6 +103,8 @@ class ProfileBox extends StatelessWidget {
     this.ra,
     this.pr,
     this.pp,
+    this.course,
+    this.period,
   }) : super(key: key);
 
   final String urlImage;
@@ -115,6 +112,8 @@ class ProfileBox extends StatelessWidget {
   final String ra;
   final String pr;
   final String pp;
+  final String course;
+  final String period;
 
   @override
   Widget build(BuildContext context) {
@@ -123,34 +122,29 @@ class ProfileBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 380,
-        height: 440,
+        width: 360,
+        height: 500,
         decoration: BoxDecoration(
           color: Colors.grey[800],
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 30,
-              ),
+            CircleAvatar(
+              radius: 85,
+              backgroundColor: Colors.white,
               child: CircleAvatar(
-                radius: 75,
-                backgroundColor: Colors.grey[800],
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundImage: NetworkImage(urlImage),
-                ),
+                radius: 80,
+                backgroundImage: NetworkImage(urlImage),
               ),
             ),
-            Positioned(
-              bottom: 160,
-              left: 117,
+            SizedBox(height: 20),
+            Center(
               child: Text(
                 name,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Lato',
                   color: Colors.white,
@@ -158,14 +152,30 @@ class ProfileBox extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 190,
-              left: 130,
+            SizedBox(
+              height: 4,
+            ),
+            Center(
               child: Text(
                 "RA: " + ra,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 15,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300,
+                  fontFamily: 'Lato',
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Text(
+                "Curso: " + course,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
                   fontWeight: FontWeight.w300,
                   fontFamily: 'Lato',
                 ),
@@ -176,13 +186,13 @@ class ProfileBox extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                left: 70,
+                left: 60,
               ),
               child: LinearPercentIndicator(
                 animation: true,
                 animationDuration: 2500,
                 width: 200,
-                lineHeight: 20,
+                lineHeight: 25,
                 linearStrokeCap: LinearStrokeCap.butt,
                 percent: resultPP / 100,
                 leading: Text(
@@ -204,13 +214,13 @@ class ProfileBox extends StatelessWidget {
             SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.only(
-                left: 70,
+                left: 60,
               ),
               child: LinearPercentIndicator(
                 animation: true,
                 animationDuration: 2500,
                 width: 200,
-                lineHeight: 20,
+                lineHeight: 25,
                 progressColor: Colors.green,
                 linearStrokeCap: LinearStrokeCap.butt,
                 percent: resultPR / 10,
@@ -227,33 +237,6 @@ class ProfileBox extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
                   ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Container(
-              width: 200,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: FlatButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.info_outline),
-                    Center(
-                      child: Text(
-                        "Meus Dados",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 23,
-                          fontFamily: 'Lato',
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ),

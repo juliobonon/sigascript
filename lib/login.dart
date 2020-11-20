@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     Map data = {'rg': rg, 'password': password};
     var jsonData = null;
     var response =
-        await http.post("http://192.168.15.10:5000/login", body: data);
+        await http.post("https://siga-fatec.herokuapp.com/login", body: data);
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
       setState(() {
