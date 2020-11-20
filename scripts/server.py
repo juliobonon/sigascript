@@ -1,6 +1,6 @@
 from bot import Bot
 from flask import Flask, request, jsonify
-from os import sys
+import os
 
 app = Flask(__name__)
 
@@ -11,6 +11,9 @@ def home():
 
 @app.route('/grades', methods=['GET'])
 def api_gatry():
+    bot = Bot()
+    list = []
+    bot.parse_grades2()
     return jsonify(list), 200
 
 @app.route('/profile', methods=['GET'])
@@ -41,6 +44,6 @@ def presences():
     return jsonify(list), 200
 
 if __name__ == "__main__":
-    ip = sys.argv[1]
-    app.run(host=ip)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, threaded=True)
 

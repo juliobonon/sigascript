@@ -15,6 +15,7 @@ class Bot():
     GRID_CONTAINER_START = 1
     GRID_CONTAINER_FINAL = 8
 
+    #método para logar no SIGA
     def site_login(self, rg, password): 
         self.driver.get("https://siga.cps.sp.gov.br/aluno/login.aspx") #pega a url do siga e passa pro driver
         time.sleep(2)
@@ -27,13 +28,17 @@ class Bot():
         except:
             return 1
 
+    #método para teste (tenta achar uma página que só é possivel apos o LOGIN)
     def find_page(self):
         time.sleep(2)
         self.driver.get("https://siga.cps.sp.gov.br/aluno/home.aspx") #acha o link de redirecionamento pra página das notas e clica
         self.driver.find_element_by_id("ygtvlabelel10").click()
         time.sleep(2)
     
+    #pega todos os dados, como IMAGEM, RA, PP e PR
     def get_profile_data(self):
+        course_name = self.driver.find_element_by_id("span_vACD_CURSONOME_MPAGE").text
+        period_time = self.driver.find_element_by_id("span_vACD_PERIODODESCRICAO_MPAGE").text
         div = self.driver.find_element_by_id("TABLE1_MPAGE")
         html = div.get_attribute("innerHTML")
         soup = BeautifulSoup(html, 'html.parser')
@@ -60,7 +65,8 @@ class Bot():
             'ra': span_ra.text,
             'pp': span_pp.text,
             'pr': span_pr.text,
-
+            'course' : course_name,
+            'period': period_time,
         }
         
         i = 1
@@ -84,8 +90,8 @@ class Bot():
             for grade in soup.find_all("tr", {"id": "Grid3ContainerRow_000"+str(i)}):
                 cont = soup.find("table", {"id": "Grid2Container_000" +str(i) + "Tbl"})
                 print(grade.text)
+                dict= {}
                 for item in cont.find_all("tr", {"class": "tableborderOdd"}):
-                    dict= {}
                     gradename = item.find("td", {"valign": "top"})
                     grade_number = item.find("td", {"valign": "middle"})
                     dict['id'] = str(i)
@@ -95,31 +101,13 @@ class Bot():
                         dict['gradenumber'] = "Sem Nota"
                     dict['grade'] = grade.text
                     dict['gradename'] = gradename.text
-                    list.append(dict)
+                list.append(dict)
                 print(i)
                 print('\n')
         self.driver.close()
         return list
-    
-    def organize_grades(self, list):
-        grade_list = []
-        for item in list:
-            grade_list.append(item['grade'])
-        
-        i = 1
-        new_list = []
-        for item in list:
-            i =+ i
-            if item['grade'] == grade_list[i]:
-                dict = {}
-                dict[grade_list[1]]= {
-                    'notanome': item['gradename'],
-                    'gradenumber': item['gradenumber']
-                }
-                new_list.append(dict)
-        
-        print(new_list)
 
+    #pega as faltas e presenças de cada aluno
     def absent(self):
         self.driver.get('https://siga.cps.sp.gov.br/aluno/faltasparciais.aspx')
         faltas = self.driver.find_element_by_id('Grid1ContainerTbl')
@@ -128,18 +116,42 @@ class Bot():
         list = []
         for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
             for grade in soup.find_all("tr", {"id": "Grid1ContainerRow_000"+str(i)}):
-                print(grade.text)
+                #print(grade.text)
                 cont = grade.find("span", {"id": "span_vACD_DISCIPLINANOME_000" +str(i)})
                 presence = grade.find("span", {"id":"span_vPRESENCAS_000" + str(i)})
                 absence = grade.find("span", {"id":"span_vAUSENCIAS_000" + str(i)})
                 dict = {
+                    'id': str(i),
                     'grade': cont.text,
                     'presences': presence.text,
                     'absences': absence.text
                 }
                 list.append(dict)
-            print(i)
-            print('\n')    
+            #print(i)
+            #print('\n')    
         return list
 
-
+    def parse_grades2(self):
+        time.sleep(2)
+        self.driver.get("https://siga.cps.sp.gov.br/aluno/notasparciais.aspx")
+        ##notas = driver.find_element_by_id("span_CTLACD_PLANOENSINOAVALIACAOPARCIALNOTA_000100040001")
+        notas = self.driver.find_element_by_tag_name('tbody')
+        html = notas.get_attribute("innerHTML")
+        soup = BeautifulSoup(html, 'html.parser')
+        list = []
+        for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
+            dict = {}
+            grade_name = soup.find("tr", {"id": "Grid3ContainerRow_000" + str(i)}).text
+            dict['id'] = str(i)
+            dict['grade_name'] = grade_name
+            for table in soup.find_all("table", {"id": "Grid2Container_000" +str(i)+"Tbl"}):
+                j=0
+                for grade in table.find_all("tr", {"class": "tableborderOdd"}):
+                    j = j  + 1
+                    if 'Avaliacao' in grade.text:
+                        newgrade = grade.text.replace('Avaliacao', '')  
+                    update = {"grade" + str(j): newgrade}
+                    dict.update(update)
+            list.append(dict)
+        
+        return list
