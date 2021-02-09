@@ -30,17 +30,6 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       showDialog(
         context: context,
-        child: AlertDialog(
-          title: Text("Erro de Login"),
-          content: Text(
-              "Verifique suas credenciais e sua conexão e tente novamente."),
-          actions: [
-            FlatButton(
-              child: Text("Ok"),
-              onPressed: () => Navigator.pop(context, true),
-            ),
-          ],
-        ),
       );
     }
   }
