@@ -80,8 +80,9 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextFormField(
                       style: TextStyle(color: Colors.red),
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(4),
                         focusColor: Colors.red,
-                        labelText: 'Enter your RG',
+                        labelText: 'Digite seu RG',
                         labelStyle: TextStyle(color: Colors.black),
                         border: InputBorder.none,
                       ),
@@ -102,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.red,
                       ),
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(4),
                         labelText: 'Password',
                         border: InputBorder.none,
                         labelStyle: TextStyle(color: Colors.black),
@@ -118,11 +120,21 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10)),
                     minWidth: 200,
                     height: 50,
-                    child: ElevatedButton(
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.arrow_forward_ios_rounded),
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.red)),
-                      child: Text(
+                        padding: MaterialStateProperty.all(
+                          EdgeInsets.only(
+                            top: 20,
+                            left: 40,
+                            right: 40,
+                            bottom: 20,
+                          ),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.red),
+                      ),
+                      label: Text(
                         "Login",
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),

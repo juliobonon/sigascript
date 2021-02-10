@@ -36,8 +36,10 @@ class _RouteManagerState extends State<RouteManager> {
                         width: 300,
                         height: 350,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset('imgs/cps.png'),
+                            Image.asset('imgs/cps.jpg', width: 200),
+                            SizedBox(height: 20),
                             Text(
                               "Sobre o Projeto",
                               style: TextStyle(fontSize: 25),

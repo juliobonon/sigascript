@@ -119,6 +119,7 @@ class ProfileBox extends StatelessWidget {
   Widget build(BuildContext context) {
     double resultPP = double.parse(pp);
     double resultPR = double.parse(pr);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
