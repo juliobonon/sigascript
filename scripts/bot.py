@@ -1,6 +1,7 @@
 # coding=utf-8 
 from selenium import webdriver
 from bs4 import BeautifulSoup
+from collections import defaultdict
 import json
 import time
 import warnings
@@ -126,9 +127,8 @@ class Bot():
                     'presences': presence.text,
                     'absences': absence.text
                 }
-                list.append(dict)
-            #print(i)
-            #print('\n')    
+                list.append(dict)  
+
         return list
 
     def parse_grades2(self):
@@ -143,7 +143,7 @@ class Bot():
             dict = {}
             grade_name = soup.find("tr", {"id": "Grid3ContainerRow_000" + str(i)}).text
             dict['id'] = str(i)
-            dict['grade_name'] = grade_name
+            #dict['grade_name'] = grade_name
             for table in soup.find_all("table", {"id": "Grid2Container_000" +str(i)+"Tbl"}):
                 j=0
                 for grade in table.find_all("tr", {"class": "tableborderOdd"}):
@@ -155,3 +155,16 @@ class Bot():
             list.append(dict)
         
         return list
+    
+    def merge_grades(self):
+        absent = self.absent()
+        grades = self.parse_grades2()
+        for elm2 in absent: 
+            for elm1 in grades: 
+                if elm2['id'] == elm1['id']: 
+                    elm1.update(elm2) 
+                    break
+            else: 
+                grades.append(elm2) 
+
+        return grades

@@ -19,8 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   signIn(String rg, String password) async {
     Map data = {'rg': rg, 'password': password};
     var jsonData = null;
-    var response =
-        await http.post("https://siga-fatec.herokuapp.com/login", body: data);
+    var response = await http.post("http://0.0.0.0:3000/login", body: data);
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
       setState(() {
@@ -30,6 +29,23 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       showDialog(
         context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login error'),
+            content: Text('Cheque suas credenciais e conexão'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: Text('Voltar'),
+              )
+            ],
+          );
+        },
       );
     }
   }
@@ -102,8 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10)),
                     minWidth: 200,
                     height: 50,
-                    child: RaisedButton(
-                      color: Colors.red,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.red)),
                       child: Text(
                         "Login",
                         style: TextStyle(color: Colors.white, fontSize: 20),

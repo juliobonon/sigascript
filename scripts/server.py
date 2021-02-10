@@ -40,10 +40,10 @@ def login():
 def presences():
     bot = Bot()
     list = []
-    list = bot.absent()
+    list = bot.merge_grades()
     return jsonify(list), 200
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 3000))
     app.run(host='0.0.0.0', port=port, threaded=True)
 

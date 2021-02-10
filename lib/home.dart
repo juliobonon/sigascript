@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 Future<Profile> fetchProfile() async {
-  var url = 'https://siga-fatec.herokuapp.com/';
+  var url = 'http://0.0.0.0:3000';
   final response = await http.get('$url/profile');
 
   if (response.statusCode == 200) {

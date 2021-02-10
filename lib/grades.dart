@@ -5,8 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<List<Grade>> fetchPhotos(http.Client client) async {
-  final response =
-      await client.get('https://siga-fatec.herokuapp.com//presences');
+  final response = await client.get('http://0.0.0.0:3000/presences');
 
   // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parsePhotos, response.body);
@@ -23,15 +22,29 @@ class Grade {
   final String grade;
   final String presences;
   final String absences;
+  final String grade1;
+  final String grade2;
+  final String grade3;
+  final String grade4;
 
-  Grade({this.grade, this.presences, this.absences});
+  Grade(
+      {this.grade1,
+      this.grade2,
+      this.grade3,
+      this.grade4,
+      this.grade,
+      this.presences,
+      this.absences});
 
   factory Grade.fromJson(Map<String, dynamic> json) {
     return Grade(
-      grade: json['grade'],
-      presences: json['presences'],
-      absences: json['absences'],
-    );
+        grade: json['grade'],
+        presences: json['presences'],
+        absences: json['absences'],
+        grade1: json['grade1'],
+        grade2: json['grade2'],
+        grade3: json['grade3'],
+        grade4: json['grade4']);
   }
 }
 
@@ -96,6 +109,8 @@ class _GradesPageState extends State<GradesPage> {
                   grade: widget.grades[index].grade,
                   absences: widget.grades[index].absences,
                   presences: widget.grades[index].presences,
+                  grade1: widget.grades[index].grade1,
+                  grade2: widget.grades[index].grade2,
                 );
               },
             ),
@@ -107,17 +122,27 @@ class _GradesPageState extends State<GradesPage> {
 }
 
 class GradeContainer extends StatefulWidget {
-  const GradeContainer({Key key, this.grade, this.presences, this.absences})
+  const GradeContainer(
+      {Key key,
+      this.grade,
+      this.presences,
+      this.absences,
+      this.grade1,
+      this.grade2})
       : super(key: key);
+
   final String grade;
   final String presences;
   final String absences;
+  final String grade1;
+  final String grade2;
 
   @override
   _GradeContainerState createState() => _GradeContainerState();
 }
 
 class _GradeContainerState extends State<GradeContainer> {
+  void getGrade() => print(widget.grade2);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -169,6 +194,7 @@ class _GradeContainerState extends State<GradeContainer> {
                                 ),
                               ),
                             ),
+                            gradeWidget(widget.grade1, widget.grade2)
                           ],
                         )
                       ],
@@ -207,5 +233,18 @@ class _GradeContainerState extends State<GradeContainer> {
         ),
       ),
     );
+  }
+}
+
+Widget gradeWidget(x, y) {
+  if (x != null && y != null) {
+    return Column(
+      children: [
+        Text(x),
+        Text(y),
+      ],
+    );
+  } else {
+    return SizedBox(width: 1);
   }
 }

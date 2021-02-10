@@ -51,7 +51,7 @@ class _RouteManagerState extends State<RouteManager> {
                         ),
                       ),
                       actions: [
-                        RaisedButton(
+                        ElevatedButton(
                           child: Text("Ok"),
                           onPressed: () => Navigator.pop(context),
                         ),
@@ -70,15 +70,15 @@ class _RouteManagerState extends State<RouteManager> {
         currentIndex: _index,
         items: [
           BottomNavigationBarItem(
-            title: Text("Dashboard"),
+            label: "Dashboard",
             icon: Icon(Icons.people),
           ),
           BottomNavigationBarItem(
-            title: Text("Home"),
+            label: "Home",
             icon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-            title: Text("Notas"),
+            label: "Notas",
             icon: Icon(Icons.dashboard),
           ),
         ],
