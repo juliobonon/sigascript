@@ -1,24 +1,14 @@
 # siga-script
 
-Não esquece de colocar teu login e senha no `settings.json`
-
-# bot.py
-
-```
-driver = webdriver.Chrome('./chromedriver', chrome_options=options)
-```
-
-Se tu tiver usando Windows, talvez tenha que colocar `./chromedriver.exe`
+Esse bot entra no siga com suas credenciais e realiza o `scrapping` das informações: foto, nome, curso, presenças, ausencias e notas :) 
 
 
-# requirements.txt
+## testando 
 
-```
-python3 -m pip install requirements.txt
-```
+Se você quiser usar as funções do bot para testar o processo de scrapping, coloque suas credenciais no `settings.json`
 
-# rodar
+Para testar juntamente com o frontend feito em Flutter, suba o servidor flask executando o `server.py`
 
-```
-python3 login-script-test.py
-```
+
+
+
