@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -53,7 +54,20 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? Scaffold(
+            body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  strokeWidth: 2,
+                  backgroundColor: Colors.red,
+                ),
+                SizedBox(height: 20),
+                Text('Carregando, aguarde...'),
+              ],
+            ),
+          ))
         : Scaffold(
             body: Center(
                 child: SingleChildScrollView(
@@ -146,6 +160,11 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
+                  SizedBox(height: 10),
+                  InkWell(
+                    child: Text('Made with ❤️ by juliobonon'),
+                    onTap: () => launch('https://github.com/juliobonon'),
+                  )
                 ],
               ),
             )),

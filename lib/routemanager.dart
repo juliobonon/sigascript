@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sigascript/grades.dart';
-import 'package:sigascript/home.dart';
-import 'package:sigascript/test.dart';
+import 'package:sigascript/pages/dashboard.dart';
+import 'package:sigascript/pages/grades.dart';
+import 'package:sigascript/pages/home.dart';
 
 class RouteManager extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class RouteManager extends StatefulWidget {
 
 class _RouteManagerState extends State<RouteManager> {
   int _index = 1;
-  final _pageOptions = [Pelando(), Home(), Grades()];
+  final _pageOptions = [Dashboard(), Home(), Grades()];
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,10 @@ class _RouteManagerState extends State<RouteManager> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset('imgs/cps.jpg', width: 200),
+                            Image.asset(
+                              'imgs/cps.jpg',
+                              width: 200,
+                            ),
                             SizedBox(height: 20),
                             Text(
                               "Sobre o Projeto",
