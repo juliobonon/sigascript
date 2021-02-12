@@ -111,6 +111,8 @@ class _GradesPageState extends State<GradesPage> {
                   presences: widget.grades[index].presences,
                   grade1: widget.grades[index].grade1,
                   grade2: widget.grades[index].grade2,
+                  grade3: widget.grades[index].grade3,
+                  grade4: widget.grades[index].grade4,
                 );
               },
             ),
@@ -128,7 +130,9 @@ class GradeContainer extends StatefulWidget {
       this.presences,
       this.absences,
       this.grade1,
-      this.grade2})
+      this.grade2,
+      this.grade3,
+      this.grade4})
       : super(key: key);
 
   final String grade;
@@ -136,6 +140,8 @@ class GradeContainer extends StatefulWidget {
   final String absences;
   final String grade1;
   final String grade2;
+  final String grade3;
+  final String grade4;
 
   @override
   _GradeContainerState createState() => _GradeContainerState();
@@ -194,7 +200,8 @@ class _GradeContainerState extends State<GradeContainer> {
                                 ),
                               ),
                             ),
-                            gradeWidget(widget.grade1, widget.grade2)
+                            gradeWidget(widget.grade1, widget.grade2,
+                                widget.grade3, widget.grade4)
                           ],
                         )
                       ],
@@ -236,15 +243,19 @@ class _GradeContainerState extends State<GradeContainer> {
   }
 }
 
-Widget gradeWidget(x, y) {
-  if (x != null && y != null) {
+Widget gradeWidget(grade1, grade2, grade3, grade4) {
+  if (grade1 != null && grade2 != null && grade3 != null && grade4 != null) {
     return Column(
-      children: [
-        Text(x),
-        Text(y),
-      ],
+      children: [Text(grade1), Text(grade2), Text(grade3), Text(grade4)],
     );
-  } else {
-    return SizedBox(width: 1);
-  }
+  } else if (grade1 != null && grade2 != null && grade3 != null) {
+    return Column(
+      children: [Text(grade1), Text(grade2), Text(grade3)],
+    );
+  } else if (grade1 != null && grade2 != null) {
+    return Column(
+      children: [Text(grade1), Text(grade2)],
+    );
+  } else
+    return SizedBox.shrink();
 }
