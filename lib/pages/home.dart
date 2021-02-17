@@ -123,16 +123,21 @@ class ProfileBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 360,
+        width: 350,
         height: 500,
         decoration: BoxDecoration(
           color: Colors.grey[800],
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, top: 10),
+                child: periodBox(period),
+              ),
+            ),
             CircleAvatar(
               radius: 85,
               backgroundColor: Colors.white,
@@ -282,6 +287,27 @@ class GradeContainer extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+Widget periodBox(String period) {
+  bool manha = false;
+  var size = 60.0;
+
+  if (period == 'Manhã') {
+    manha = true;
+  }
+
+  if (manha) {
+    return Image.asset(
+      'imgs/morning.png',
+      width: size,
+    );
+  } else {
+    return Image.asset(
+      'imgs/night.png',
+      width: size,
     );
   }
 }
