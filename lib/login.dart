@@ -11,7 +11,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-
   final String universityName = 'Fatec Campinas';
   bool _isLoading = false;
   TextEditingController rgController = new TextEditingController();
@@ -22,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
       'rg': rg,
       'password': password,
     };
+
     var jsonData = null;
     var response = await http.post("http://0.0.0.0:3000/login", body: data);
     if (response.statusCode == 200) {
