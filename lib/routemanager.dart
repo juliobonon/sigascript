@@ -16,7 +16,7 @@ class _RouteManagerState extends State<RouteManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Siga Fatec Campinas"),
+        title: Text("Fatec Campinas"),
         actions: [
           Ink(
             decoration: ShapeDecoration(
@@ -29,32 +29,7 @@ class _RouteManagerState extends State<RouteManager> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      content: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        width: 300,
-                        height: 350,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'imgs/cps.jpg',
-                              width: 200,
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "Sobre o Projeto",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "Esse aplicativo não tem acesso ao banco de dados do SIGA, todos os dados são obtidos a partir de um script.",
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
+                      content: dialogBox(),
                       actions: [
                         ElevatedButton(
                           child: Text("Ok"),
@@ -90,4 +65,33 @@ class _RouteManagerState extends State<RouteManager> {
       ),
     );
   }
+}
+
+Widget dialogBox() {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+    ),
+    width: 300,
+    height: 350,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'imgs/cps.jpg',
+          width: 200,
+        ),
+        SizedBox(height: 20),
+        Text(
+          "Sobre o Projeto",
+          style: TextStyle(fontSize: 25),
+        ),
+        SizedBox(height: 10),
+        Text(
+          "Esse aplicativo não tem acesso ao banco de dados do SIGA, todos os dados são obtidos a partir de um programa.",
+          textAlign: TextAlign.center,
+        )
+      ],
+    ),
+  );
 }
