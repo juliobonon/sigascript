@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 50,
                       ),
                       Container(
-                        width: 300,
+                        width: 330,
                         height: 60,
                         padding: EdgeInsets.only(
                           left: 10,
@@ -91,16 +91,14 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(4),
                             focusColor: Colors.red,
-                            labelText: 'Digite seu RG',
+                            labelText: 'Digite seu email',
                             labelStyle: TextStyle(color: Colors.black),
                             border: InputBorder.none,
                           ),
                           controller: rgController,
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Informe o RG';
-                            } else if (value.length != 11) {
-                              return 'Um RG válido tem apenas 11 caracteres';
+                              return 'Informe o e-mail';
                             }
                           },
                         ),
@@ -109,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 10,
                       ),
                       Container(
-                        width: 300,
+                        width: 330,
                         height: 60,
                         padding: EdgeInsets.only(left: 10),
                         decoration: BoxDecoration(
@@ -121,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(4),
-                            labelText: 'Password',
+                            labelText: 'Senha',
                             border: InputBorder.none,
                             labelStyle: TextStyle(color: Colors.black),
                           ),
@@ -147,10 +145,10 @@ class _LoginPageState extends State<LoginPage> {
                           style: ButtonStyle(
                             padding: MaterialStateProperty.all(
                               EdgeInsets.only(
-                                top: 20,
-                                left: 40,
-                                right: 40,
-                                bottom: 20,
+                                top: 15,
+                                left: 59,
+                                right: 59,
+                                bottom: 15,
                               ),
                             ),
                             backgroundColor:
@@ -182,10 +180,10 @@ class _LoginPageState extends State<LoginPage> {
                             style: ButtonStyle(
                               padding: MaterialStateProperty.all(
                                 EdgeInsets.only(
-                                  top: 20,
-                                  left: 25,
-                                  right: 25,
-                                  bottom: 20,
+                                  top: 15,
+                                  left: 40,
+                                  right: 45,
+                                  bottom: 15,
                                 ),
                               ),
                               backgroundColor:
@@ -197,8 +195,9 @@ class _LoginPageState extends State<LoginPage> {
                                   TextStyle(color: Colors.white, fontSize: 20),
                             ),
                             onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/register', ModalRoute.withName('/'));
+                              Navigator.of(context).pushNamed(
+                                '/register',
+                              );
                             }),
                       ),
                       SizedBox(
