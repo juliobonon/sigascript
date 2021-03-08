@@ -75,10 +75,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 50,
                       ),
                       Container(
                         width: 300,
+                        height: 60,
                         padding: EdgeInsets.only(
                           left: 10,
                         ),
@@ -109,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Container(
                         width: 300,
+                        height: 60,
                         padding: EdgeInsets.only(left: 10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -138,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                       ButtonTheme(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        minWidth: 200,
+                        minWidth: 250,
                         height: 50,
                         child: ElevatedButton.icon(
                           icon: Icon(Icons.arrow_forward_ios_rounded),
@@ -170,6 +172,38 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       SizedBox(height: 10),
+                      ButtonTheme(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        minWidth: 200,
+                        height: 50,
+                        child: ElevatedButton.icon(
+                            icon: Icon(Icons.arrow_forward_ios_rounded),
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                EdgeInsets.only(
+                                  top: 20,
+                                  left: 25,
+                                  right: 25,
+                                  bottom: 20,
+                                ),
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.red),
+                            ),
+                            label: Text(
+                              "Registrar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/register', ModalRoute.withName('/'));
+                            }),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       InkWell(
                         child: Text('Made with ❤️ by juliobonon'),
                         onTap: () => launch('https://github.com/juliobonon'),

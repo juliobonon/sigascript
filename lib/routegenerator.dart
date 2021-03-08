@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sigascript/login.dart';
+import 'package:sigascript/pages/register.dart';
 import 'package:sigascript/routemanager.dart';
 
 class RouteGenerator {
@@ -9,6 +10,9 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => LoginPage());
+      case '/register':
+        // Validation of correct data type
+        return MaterialPageRoute(builder: (_) => Register());
       case '/login':
         // Validation of correct data type
         return MaterialPageRoute(builder: (_) => RouteManager());
