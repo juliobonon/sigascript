@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sigascript/login.dart';
-import 'package:sigascript/pages/register.dart';
+import 'package:sigascript/rootPage.dart';
 import 'package:sigascript/routemanager.dart';
+
+import 'services/auth.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -9,10 +10,7 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => LoginPage());
-      case '/register':
-        // Validation of correct data type
-        return MaterialPageRoute(builder: (_) => Register());
+        return MaterialPageRoute(builder: (_) => RootPage(auth: new Auth()));
       case '/login':
         // Validation of correct data type
         return MaterialPageRoute(builder: (_) => RouteManager());

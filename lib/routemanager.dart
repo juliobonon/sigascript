@@ -2,15 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:sigascript/pages/dashboard.dart';
 import 'package:sigascript/pages/grades.dart';
 import 'package:sigascript/pages/home.dart';
+import 'package:sigascript/services/auth.dart';
 
 class RouteManager extends StatefulWidget {
+  RouteManager({this.auth, this.onSignedOut});
+  final BaseAuth auth;
+  final VoidCallback onSignedOut;
+
   @override
   _RouteManagerState createState() => _RouteManagerState();
 }
 
 class _RouteManagerState extends State<RouteManager> {
   int _index = 1;
-  final _pageOptions = [Dashboard(), Home(), Grades()];
+  final _pageOptions = [
+    Dashboard(),
+    Home(),
+    Grades(),
+  ];
+
+  void _signOut() async {
+    try {
+      await widget.auth.signOut();
+      widget.onSignedOut();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +60,15 @@ class _RouteManagerState extends State<RouteManager> {
               },
             ),
           ),
+          Ink(
+            decoration: ShapeDecoration(
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: _signOut,
+            ),
+          )
         ],
       ),
       body: _pageOptions[_index],
