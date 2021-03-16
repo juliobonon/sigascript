@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 Future<Profile> fetchProfile() async {
-  var url = 'http://0.0.0.0:3000';
-  final response = await http.get('$url/profile');
+  var url = 'https://siga-fatec.herokuapp.com';
+  final response = await http.get(Uri.http(url, '/profile'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

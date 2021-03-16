@@ -5,7 +5,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<List<Grade>> fetchPhotos(http.Client client) async {
-  final response = await client.get('http://0.0.0.0:3000/presences');
+  final response = await http
+      .get(Uri.http('https://siga-fatec.herokuapp.com/', '/presences'));
 
   // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parsePhotos, response.body);
