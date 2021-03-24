@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sigascript/login.dart';
 import 'package:sigascript/routemanager.dart';
+import 'package:sigascript/services/emailValidator.dart';
 import 'services/auth.dart';
 
 class RootPage extends StatefulWidget {
-  RootPage({this.auth});
+  RootPage({this.auth, this.validator});
   final BaseAuth auth;
+  final Validator validator;
   @override
   _RootPageState createState() => _RootPageState();
 }
@@ -45,6 +47,7 @@ class _RootPageState extends State<RootPage> {
         return new LoginPage(
           auth: widget.auth,
           onSignedIn: _signedIn,
+          validator: widget.validator,
         );
       case AuthStatus.signedIn:
         return new RouteManager(
