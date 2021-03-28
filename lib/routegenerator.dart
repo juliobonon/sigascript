@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sigascript/rootPage.dart';
 import 'package:sigascript/routemanager.dart';
-import 'package:sigascript/services/emailValidator.dart';
+import 'package:sigascript/services/validator.dart';
 import 'services/auth.dart';
 
 class RouteGenerator {

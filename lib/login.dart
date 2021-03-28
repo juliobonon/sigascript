@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sigascript/components/formButton.dart';
 import 'package:sigascript/components/inputContainer.dart';
 import 'package:sigascript/services/auth.dart';
-import 'package:sigascript/services/emailValidator.dart';
+import 'package:sigascript/services/validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -51,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
         }
       } else {
         try {
-          User userId = await widget.auth
-              .createUserWithEmailandPassword(_email.text, _password.text);
+          User userId = await widget.auth.createUserWithEmailandPassword(
+              _email.text, _user.text, _password.text);
           print('Signed in: ' + userId.uid);
           widget.onSignedIn();
         } catch (e) {

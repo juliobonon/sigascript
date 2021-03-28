@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sigascript/home.dart';
 import 'package:sigascript/login.dart';
 import 'package:sigascript/routemanager.dart';
-import 'package:sigascript/services/emailValidator.dart';
+import 'package:sigascript/services/validator.dart';
 import 'services/auth.dart';
 
 class RootPage extends StatefulWidget {
@@ -50,7 +51,7 @@ class _RootPageState extends State<RootPage> {
           validator: widget.validator,
         );
       case AuthStatus.signedIn:
-        return new RouteManager(
+        return new HomePage(
           auth: widget.auth,
           onSignedOut: _signedOut,
         );

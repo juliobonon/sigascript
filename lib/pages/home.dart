@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:sigascript/pages/homeNotRegistered.dart';
-import 'package:sigascript/services/emailValidator.dart';
+import 'package:sigascript/services/validator.dart';
 
 Future<Profile> fetchProfile() async {
   var url = 'https://siga-fatec.herokuapp.com';
@@ -86,11 +86,7 @@ class _HomeState extends State<Home> {
               ),
             );
           } else {
-            return Center(
-              child: HomeAnonymous(
-                validator: new Validator(),
-              ),
-            );
+            return CircularProgressIndicator();
           }
         },
       ),
