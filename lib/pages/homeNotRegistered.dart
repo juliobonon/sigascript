@@ -79,40 +79,38 @@ class _HomeAnonymousState extends State<HomeAnonymous> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Não configurou o Siga ainda? 🤔",
-                style: TextStyle(fontSize: 20),
-              ),
-              SizedBox(height: 20),
-              InputContainer(
-                name: "RG",
-                controller: _rg,
-                obscureText: false,
-                validator: widget.validator.validateRG,
-              ),
-              SizedBox(height: 10),
-              InputContainer(
-                name: "Senha",
-                controller: _sigaPassword,
-                validator: widget.validator.validatePassword,
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              FormButton(
-                name: "Cadastrar SIGA",
-                function: () {
-                  validateAndSubmit(user.uid, _rg.text, _sigaPassword.text);
-                },
-              ),
-            ],
-          ),
+    return Center(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Não configurou o Siga ainda? 🤔",
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 20),
+            InputContainer(
+              name: "RG",
+              controller: _rg,
+              obscureText: false,
+              validator: widget.validator.validateRG,
+            ),
+            SizedBox(height: 10),
+            InputContainer(
+              name: "Senha",
+              controller: _sigaPassword,
+              validator: widget.validator.validatePassword,
+              obscureText: true,
+            ),
+            SizedBox(height: 20),
+            FormButton(
+              name: "Cadastrar SIGA",
+              function: () {
+                validateAndSubmit(user.uid, _rg.text, _sigaPassword.text);
+              },
+            ),
+          ],
         ),
       ),
     );

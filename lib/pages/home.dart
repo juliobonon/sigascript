@@ -3,12 +3,15 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:sigascript/pages/homeNotRegistered.dart';
-import 'package:sigascript/services/validator.dart';
 
-Future<Profile> fetchProfile() async {
+Future<Profile> fetchProfile(String rg, String pw) async {
   var url = 'https://siga-fatec.herokuapp.com';
-  final response = await http.get(Uri.http(url, '/profile'));
+  var url_test = "http://192.168.15.14:3000";
+
+  print(rg);
+  print(pw);
+  final response =
+      await http.get(Uri.http(url_test, "/profile", {"rg": rg, "pw": pw}));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -54,6 +57,11 @@ class Profile {
 }
 
 class Home extends StatefulWidget {
+  Home({this.rg, this.pw});
+
+  final String rg;
+  final String pw;
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -64,7 +72,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    futureProfile = fetchProfile();
+    futureProfile = fetchProfile(widget.rg, widget.pw);
   }
 
   @override
