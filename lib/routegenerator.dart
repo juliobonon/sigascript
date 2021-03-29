@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sigascript/pages/home.dart';
 import 'package:sigascript/rootPage.dart';
 import 'package:sigascript/routemanager.dart';
 import 'package:sigascript/services/validator.dart';
@@ -16,6 +17,7 @@ class RouteGenerator {
       case '/login':
         // Validation of correct data type
         return MaterialPageRoute(builder: (_) => RouteManager());
+
       // If args is not of the correct type, return an error page.
       // You can also throw an exception while in development.
 
