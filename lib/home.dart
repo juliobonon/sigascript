@@ -2,55 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sigascript/components/loadingscreen.dart';
+import 'package:sigascript/pages/home.dart';
 import 'package:sigascript/pages/homeNotRegistered.dart';
-import 'package:sigascript/routemanager.dart';
 import 'package:sigascript/services/auth.dart';
-import 'dart:async';
-
 import 'package:sigascript/services/validator.dart';
-
-class GetUserName extends StatelessWidget {
-  final String documentId;
-
-  GetUserName(this.documentId);
-
-  @override
-  Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-    print(users);
-    return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(documentId).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text("Something went wrong");
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data.data();
-          if (data['isSigaConfigured'] == false) {
-            return HomeAnonymous(auth: new Auth(), validator: new Validator());
-          } else {
-            return RouteManager();
-          }
-        }
-
-        return LoadingScreen();
-      },
-    );
-  }
-}
-
-class GetSigaState {
-  final String useruid;
-  GetSigaState(this.useruid);
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-  Future<DocumentSnapshot> getState(String useruid) async {
-    return await users.doc(useruid).get();
-  }
-}
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -61,20 +16,52 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  User user;
+  var userData = FirebaseAuth.instance.currentUser;
+  var data;
+  bool sigaConfigured;
 
-  getUserData() async {
-    User userData = await FirebaseAuth.instance.currentUser;
-    setState(() {
-      print(user);
-      user = userData;
+  get() {
+    print(userData.uid + "Logged as");
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userData.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        data = value.data();
+      });
     });
+
+    if (data['isSigaConfigured'] == false) {
+      setState(() {
+        sigaConfigured = false;
+      });
+    } else {
+      setState(() {
+        sigaConfigured = true;
+      });
+    }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getUserData();
+  List<String> getSigaAccount() {
+    List<String> credentials = [];
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userData.uid)
+        .get()
+        .then((value) => {
+              setState(() {
+                data = value.data();
+              }),
+            });
+
+    if ((data['rgSiga'] != null) & (data['sigaPassword'] != null)) {
+      credentials.add(data['rgSiga']);
+      credentials.add(data['sigaPassword']);
+    } else {}
+
+    return credentials;
   }
 
   void _signOut() async {
@@ -90,9 +77,30 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(icon: Icon(Icons.logout), onPressed: _signOut)],
+        actions: [
+          IconButton(icon: Icon(Icons.logout), onPressed: _signOut),
+        ],
       ),
-      body: GetUserName(user.uid),
+      body: teste(),
     );
+  }
+
+  Widget teste() {
+    get();
+    if (sigaConfigured == true) {
+      var credentials = getSigaAccount();
+      if (credentials != null) {
+        return Home(
+          rg: credentials[0],
+          pw: credentials[1],
+        );
+      }
+    } else if (sigaConfigured == false) {
+      return HomeAnonymous(
+        auth: new Auth(),
+        validator: new Validator(),
+      );
+    }
+    return LoadingScreen();
   }
 }
