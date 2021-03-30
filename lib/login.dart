@@ -107,18 +107,26 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 20,
                 ),
-                FormButton(
-                  name: "Login",
-                  function: validateAndSubmit,
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: FormButton(
+                    name: "Login",
+                    function: validateAndSubmit,
+                  ),
                 ),
                 SizedBox(height: 10),
-                FormButton(
-                  name: "Registrar",
-                  function: () {
-                    setState(() {
-                      _formType = FormType.register;
-                    });
-                  },
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: FormButton(
+                    name: "Registrar",
+                    function: () {
+                      setState(() {
+                        _formType = FormType.register;
+                      });
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -199,9 +207,13 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
               ),
               SizedBox(height: 20),
-              FormButton(
-                name: "Registrar",
-                function: validateAndSubmit,
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: FormButton(
+                  name: "Criar conta",
+                  function: validateAndSubmit,
+                ),
               ),
             ],
           ),

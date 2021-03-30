@@ -16,20 +16,11 @@ class FormButton extends StatelessWidget {
         ),
         minWidth: 250,
         height: 50,
-        child: ElevatedButton.icon(
-          icon: Icon(Icons.arrow_forward_ios_rounded),
+        child: ElevatedButton(
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(
-              EdgeInsets.only(
-                top: 15,
-                left: 40,
-                right: 40,
-                bottom: 15,
-              ),
-            ),
             backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
           ),
-          label: Text(
+          child: Text(
             name,
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
