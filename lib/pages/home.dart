@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sigascript/components/loadingscreen.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:sigascript/components/profileBox.dart';
 
 Future<Profile> fetchProfile(String rg, String pw) async {
-  var url = 'https://siga-fatec.herokuapp.com';
-  var url_test = "http://192.168.15.14:3000";
+  var queryparams = {
+    'rg': rg,
+    'pw': pw,
+  };
 
-  print(rg);
-  print(pw);
-  final response =
-      await http.get(Uri.http(url_test, "/profile", {"rg": rg, "pw": pw}));
+  final response = await http
+      .get(Uri.https('siga-fatec.herokuapp.com', '/profile', queryparams));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Profile.fromJson(json.decode(response.body));
+    return Profile.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -94,167 +95,9 @@ class _HomeState extends State<Home> {
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return LoadingScreen();
           }
         },
-      ),
-    );
-  }
-}
-
-class ProfileBox extends StatelessWidget {
-  const ProfileBox({
-    Key key,
-    this.urlImage,
-    this.name,
-    this.ra,
-    this.pr,
-    this.pp,
-    this.course,
-    this.period,
-  }) : super(key: key);
-
-  final String urlImage;
-  final String name;
-  final String ra;
-  final String pr;
-  final String pp;
-  final String course;
-  final String period;
-
-  @override
-  Widget build(BuildContext context) {
-    double resultPP = double.parse(pp);
-    double resultPR = double.parse(pr);
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 350,
-        height: 500,
-        decoration: BoxDecoration(
-          color: Colors.grey[800],
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, top: 10),
-                child: periodBox(period),
-              ),
-            ),
-            CircleAvatar(
-              radius: 85,
-              backgroundColor: Colors.white,
-              child: CircleAvatar(
-                radius: 80,
-                backgroundImage: NetworkImage(urlImage),
-              ),
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: Text(
-                name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Lato',
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Center(
-              child: Text(
-                "RA: " + ra,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  fontFamily: 'Lato',
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: Text(
-                "Curso: " + course,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w300,
-                  fontFamily: 'Lato',
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 60,
-              ),
-              child: LinearPercentIndicator(
-                animation: true,
-                animationDuration: 2500,
-                width: 200,
-                lineHeight: 25,
-                linearStrokeCap: LinearStrokeCap.butt,
-                percent: resultPP / 100,
-                leading: Text(
-                  'PP',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                  ),
-                ),
-                center: Text(
-                  pp + "%",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 60,
-              ),
-              child: LinearPercentIndicator(
-                animation: true,
-                animationDuration: 2500,
-                width: 200,
-                lineHeight: 25,
-                progressColor: Colors.green,
-                linearStrokeCap: LinearStrokeCap.butt,
-                percent: resultPR / 10,
-                leading: Text(
-                  'PR',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                  ),
-                ),
-                center: Text(
-                  pr,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -294,27 +137,6 @@ class GradeContainer extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-Widget periodBox(String period) {
-  bool manha = false;
-  var size = 60.0;
-
-  if (period == 'Manhã') {
-    manha = true;
-  }
-
-  if (manha) {
-    return Image.asset(
-      'imgs/morning.png',
-      width: size,
-    );
-  } else {
-    return Image.asset(
-      'imgs/night.png',
-      width: size,
     );
   }
 }
