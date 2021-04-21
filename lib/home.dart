@@ -6,6 +6,7 @@ import 'package:sigascript/pages/home.dart';
 import 'package:sigascript/pages/homeNotRegistered.dart';
 import 'package:sigascript/services/auth.dart';
 import 'package:sigascript/services/validator.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignedOut});
@@ -66,7 +67,7 @@ class _HomePageState extends State<HomePage> {
 
   void _signOut() async {
     try {
-      await widget.auth.signOut();
+      context.read<Auth>().signOut();
       widget.onSignedOut();
     } catch (e) {
       print(e);

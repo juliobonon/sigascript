@@ -11,8 +11,9 @@ Future<Profile> fetchProfile(String rg, String pw) async {
     'pw': pw,
   };
 
-  final response = await http
-      .get(Uri.https('siga-fatec.herokuapp.com', '/profile', queryparams));
+  final response = await http.get(
+    Uri.https('siga-fatec.herokuapp.com', '/profile', queryparams),
+  );
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

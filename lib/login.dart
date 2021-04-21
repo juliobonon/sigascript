@@ -4,10 +4,10 @@ import 'package:sigascript/components/inputContainer.dart';
 import 'package:sigascript/services/auth.dart';
 import 'package:sigascript/services/validator.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({this.auth, this.onSignedIn, this.validator});
+  LoginPage({this.auth, this.onSignedIn, @required this.validator});
   final BaseAuth auth;
   final VoidCallback onSignedIn;
   final Validator validator;
@@ -41,23 +41,16 @@ class _LoginPageState extends State<LoginPage> {
   void validateAndSubmit() async {
     if (validateForm()) {
       if (_formType == FormType.login) {
-        try {
-          User userId = await widget.auth
-              .signInWithEmailAndPassword(_email.text, _password.text);
-          print("Signed in: " + userId.uid);
-          widget.onSignedIn();
-        } catch (e) {
-          print(e);
-        }
+        String status = await context
+            .read<Auth>()
+            .signInWithEmailAndPassword(_email.text, _password.text);
+        print('Status: ' + status);
       } else {
-        try {
-          User userId = await widget.auth.createUserWithEmailandPassword(
-              _email.text, _user.text, _password.text);
-          print('Signed in: ' + userId.uid);
-          widget.onSignedIn();
-        } catch (e) {
-          print(e);
-        }
+        String status = await context
+            .read<Auth>()
+            .createUserWithEmailandPassword(
+                _email.text, _user.text, _password.text);
+        print('Status: ' + status);
       }
     }
   }
