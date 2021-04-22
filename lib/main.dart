@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sigascript/models/student.dart';
+import 'package:sigascript/providers/student_provider.dart';
 import 'package:sigascript/routegenerator.dart';
 import 'package:sigascript/services/auth.dart';
 
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
         StreamProvider(
           create: (context) => context.read<Auth>().authStateChanges,
           initialData: null,
+        ),
+        Provider(
+          create: (_) => StudentProvider(),
         )
       ],
       child: MaterialApp(
