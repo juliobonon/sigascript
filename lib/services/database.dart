@@ -20,14 +20,18 @@ class DatabaseService {
     );
   }
 
-  Stream<Student> getStudentData() {
-    var userId = FirebaseAuth.instance.currentUser.uid;
-    var doc = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .snapshots()
-        .map((snapshot) => Student.fromJson(snapshot.data()));
+  Student _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return Student(
+        isSigaConfigured: snapshot.data()['isSigaConfigured'],
+        rgSiga: snapshot.data()['rgSiga'],
+        sigaPassword: snapshot.data()['sigaPassword'],
+        user: snapshot.data()['user']);
+  }
 
-    return doc;
+  Stream<DocumentSnapshot> getStudentData(String useruid) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(useruid)
+        .snapshots();
   }
 }
