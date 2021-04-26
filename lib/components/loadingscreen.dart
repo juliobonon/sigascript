@@ -28,11 +28,12 @@ class _LoadingContainerState extends State<LoadingContainer>
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 200,
-        margin: EdgeInsets.only(top: controller.value),
-        child: Image.asset(
-          'imgs/siga.png',
-        ));
+      width: 200,
+      margin: EdgeInsets.only(top: controller.value),
+      child: Image.asset(
+        'imgs/siga.png',
+      ),
+    );
   }
 }
 
@@ -44,8 +45,7 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
+    return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -53,6 +53,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
           LoadingContainer(),
         ],
       ),
-    ));
+    );
   }
 }
