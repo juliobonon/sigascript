@@ -7,6 +7,7 @@ abstract class BaseAuth {
       String email, String user, String password);
   Stream<User> get authStateChanges;
   Future<void> signOut();
+  Future getCurrentUser();
 }
 
 class Auth implements BaseAuth {
@@ -37,5 +38,9 @@ class Auth implements BaseAuth {
 
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future getCurrentUser() async {
+    return FirebaseAuth.instance.currentUser;
   }
 }

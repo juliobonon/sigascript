@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sigascript/components/formButton.dart';
 import 'package:sigascript/components/inputContainer.dart';
+import 'package:sigascript/encrypt/encrypt.dart';
 import 'package:sigascript/services/auth.dart';
 import 'package:sigascript/services/validator.dart';
 
@@ -30,34 +32,35 @@ class _HomeAnonymousState extends State<HomeAnonymous> {
     }
   }
 
-  void updateSigaState(CollectionReference users, user) {
-    users
-        .doc(user)
-        .update({'isSigaConfigured': true})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
-  }
-
   void addSigaCredentials(CollectionReference users, user, rg, sigaPassword) {
-    users
-        .doc(user)
-        .update(
-          {
-            'rgSiga': rg,
-            'sigaPassword': sigaPassword,
-          },
-        )
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+    print('rg' + rg.toString());
+    print('pw' + sigaPassword.toString());
+    if (rg == null && sigaPassword == null) {
+      users.doc(user).update({'isSigaConfigured': false});
+    } else {
+      users.doc(user).update({'isSigaConfigured': true});
+    }
+    try {
+      users.doc(user).update(
+        {
+          'rgSiga': rg,
+          'sigaPassword': sigaPassword,
+        },
+      ).then((value) => print("User Added"));
+    } catch (e) {
+      print(e);
+    }
   }
 
   void validateAndSubmit(String user, rg, sigaPassword) {
     if (validateForm()) {
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
+      var encryptedRG = context.read<Encrypt>().encrypt(rg.toString()) ?? null;
+      var encryptedPW =
+          context.read<Encrypt>().encrypt(sigaPassword.toString()) ?? null;
 
-      updateSigaState(users, user);
-      addSigaCredentials(users, user, rg, sigaPassword);
+      addSigaCredentials(users, user, encryptedRG, encryptedPW);
     }
   }
 
@@ -104,11 +107,15 @@ class _HomeAnonymousState extends State<HomeAnonymous> {
               obscureText: true,
             ),
             SizedBox(height: 20),
-            FormButton(
-              name: "Cadastrar SIGA",
-              function: () {
-                validateAndSubmit(user.uid, _rg.text, _sigaPassword.text);
-              },
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: FormButton(
+                name: "Cadastrar SIGA",
+                function: () {
+                  validateAndSubmit(user.uid, _rg.text, _sigaPassword.text);
+                },
+              ),
             ),
           ],
         ),

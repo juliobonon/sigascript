@@ -96,7 +96,7 @@ class _HomeState extends State<Home> {
               ),
             );
           } else {
-            return LoadingScreen();
+            return CircularProgressIndicator();
           }
         },
       ),

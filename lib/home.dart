@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sigascript/components/loadingscreen.dart';
+import 'package:sigascript/pages/home.dart';
+import 'package:sigascript/pages/homeNotRegistered.dart';
 import 'package:sigascript/providers/student_provider.dart';
 import 'package:sigascript/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:sigascript/services/validator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,10 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var userData = FirebaseAuth.instance.currentUser;
-  var data;
-  bool sigaConfigured;
-
   void _signOut() async {
     try {
       context.read<Auth>().signOut();
@@ -24,22 +20,9 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  List<String> getSigaAccount() {
-    List<String> credentials = [];
-
-    if ((data['rgSiga'] != null) & (data['sigaPassword'] != null)) {
-      credentials.add(data['rgSiga']);
-      credentials.add(data['sigaPassword']);
-    } else {}
-
-    return credentials;
-  }
-
   @override
   Widget build(BuildContext context) {
     final studentData = Provider.of<StudentProvider>(context);
-    var userID = FirebaseAuth.instance.currentUser.uid;
-
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -48,14 +31,23 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(userID)
-              .snapshots(),
+          stream: studentData.data,
           builder: (context, snapshot) {
-            if (snapshot.data == null) return LoadingContainer();
-            return Container(
-              child: Text(snapshot.data['rgSiga']),
+            if (snapshot.data['isSigaConfigured'] == false) {
+              return HomeAnonymous(
+                validator: new Validator(),
+              );
+            } else if (snapshot.data == null) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                ],
+              );
+            }
+            return Home(
+              rg: snapshot.data['rgSiga'],
+              pw: snapshot.data['sigaPassword'],
             );
           },
         ),
