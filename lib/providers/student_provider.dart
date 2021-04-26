@@ -1,7 +1,9 @@
-import 'package:sigascript/models/student.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sigascript/services/database.dart';
 
 class StudentProvider {
+  var userData = FirebaseAuth.instance.currentUser.uid;
   final databaseService = DatabaseService();
 
   String _isSigaConfigured;
@@ -14,5 +16,5 @@ class StudentProvider {
   String get rgSiga => _rgSiga;
   String get sigaPassword => _sigaPassword;
 
-  Stream<Student> get data => databaseService.getStudentData();
+  Stream<DocumentSnapshot> get data => databaseService.getStudentData(userData);
 }

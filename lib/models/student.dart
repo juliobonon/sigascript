@@ -1,8 +1,8 @@
 class Student {
-  String isSigaConfigured;
-  String user;
-  String rgSiga;
-  String sigaPassword;
+  final String isSigaConfigured;
+  final String user;
+  final String rgSiga;
+  final String sigaPassword;
 
   Student({this.isSigaConfigured, this.rgSiga, this.sigaPassword, this.user});
 
