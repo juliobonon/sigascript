@@ -1,16 +1,15 @@
 # sigascript
 
-A new Flutter project.
+- Criação de um serviço de scrapping para buscar informações do Aluno como notas, ausências, presenças e matérias.
+- Criação de um Aplicativo Mobile para exibir essas informações (Flutter e Firebase).
+- Melhorar a Usabilidade do Usuário.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Projeto em Andamento
 
-A few resources to get you started if this is your first Flutter project:
+Apesar do projeto ainda estar sendo desenvolvido, a tela inicial com os dados do aluno já pode ser visualizada:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![](docs/demo.gif)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
