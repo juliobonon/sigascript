@@ -9,7 +9,7 @@
 
 Apesar do projeto ainda estar sendo desenvolvido, a tela inicial com os dados do aluno já pode ser visualizada:
 
-![](docs/demo.gif)
+![](docs/sigascript.gif)
 
 
 
