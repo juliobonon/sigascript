@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  StudentProvider studentData;
+
   void _signOut() async {
     try {
       context.read<Auth>().signOut();
@@ -22,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final studentData = Provider.of<StudentProvider>(context);
+    studentData = Provider.of<StudentProvider>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -33,6 +35,7 @@ class _HomePageState extends State<HomePage> {
         child: StreamBuilder(
           stream: studentData.data,
           builder: (context, snapshot) {
+            print(snapshot.data['isSigaConfigured']);
             if (snapshot.data['isSigaConfigured'] == false) {
               return HomeAnonymous(
                 validator: new Validator(),

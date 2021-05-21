@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sigascript/encrypt/encrypt.dart';
-import 'package:sigascript/models/student.dart';
 import 'package:sigascript/providers/student_provider.dart';
 import 'package:sigascript/routegenerator.dart';
 import 'package:sigascript/services/auth.dart';
@@ -31,9 +29,6 @@ class MyApp extends StatelessWidget {
         Provider(
           create: (_) => StudentProvider(),
         ),
-        Provider<Encrypt>(
-          create: (_) => Encrypt(),
-        )
       ],
       child: MaterialApp(
         title: 'Fatec Campinas',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sigascript/components/alertDialog.dart';
 import 'package:sigascript/components/formButton.dart';
 import 'package:sigascript/components/inputContainer.dart';
 import 'package:sigascript/services/auth.dart';
@@ -41,16 +42,26 @@ class _LoginPageState extends State<LoginPage> {
   void validateAndSubmit() async {
     if (validateForm()) {
       if (_formType == FormType.login) {
-        String status = await context
-            .read<Auth>()
-            .signInWithEmailAndPassword(_email.text, _password.text);
-        print('Status: ' + status);
+        try {
+          String status = await context
+              .read<Auth>()
+              .signInWithEmailAndPassword(_email.text, _password.text);
+          if (status != 'Logado') {
+            showAlertDialog(context, status);
+          }
+        } catch (e) {
+          showAlertDialog(context, e);
+        }
       } else {
-        String status = await context
-            .read<Auth>()
-            .createUserWithEmailandPassword(
-                _email.text, _user.text, _password.text);
-        print('Status: ' + status);
+        try {
+          String status = await context
+              .read<Auth>()
+              .createUserWithEmailandPassword(
+                  _email.text, _user.text, _password.text);
+          showAlertDialog(context, status);
+        } catch (e) {
+          showAlertDialog(context, e);
+        }
       }
     }
   }
@@ -91,11 +102,27 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 10,
                 ),
-                InputContainer(
-                  name: "Senha",
-                  controller: _password,
-                  validator: validator.validatePassword,
-                  obscureText: true,
+                Container(
+                  width: 330,
+                  height: 60,
+                  padding: EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200]),
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(4),
+                      labelText: 'Senha',
+                      border: InputBorder.none,
+                      labelStyle: TextStyle(color: Colors.black),
+                    ),
+                    controller: _password,
+                    obscureText: true,
+                    validator: validator.validatePassword,
+                  ),
                 ),
                 SizedBox(
                   height: 20,
