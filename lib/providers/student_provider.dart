@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sigascript/services/database.dart';
 
 class StudentProvider {
-  var userData = FirebaseAuth.instance.currentUser.uid;
   final databaseService = DatabaseService();
+  var userData = FirebaseAuth.instance.currentUser.uid;
 
   String _isSigaConfigured;
   String _user;
