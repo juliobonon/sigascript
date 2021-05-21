@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sigascript/components/formButton.dart';
 import 'package:sigascript/components/inputContainer.dart';
-import 'package:sigascript/encrypt/encrypt.dart';
 import 'package:sigascript/services/auth.dart';
 import 'package:sigascript/services/validator.dart';
 
@@ -56,11 +54,8 @@ class _HomeAnonymousState extends State<HomeAnonymous> {
     if (validateForm()) {
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
-      var encryptedRG = context.read<Encrypt>().encrypt(rg.toString()) ?? null;
-      var encryptedPW =
-          context.read<Encrypt>().encrypt(sigaPassword.toString()) ?? null;
 
-      addSigaCredentials(users, user, encryptedRG, encryptedPW);
+      addSigaCredentials(users, user, rg, sigaPassword);
     }
   }
 
@@ -89,8 +84,17 @@ class _HomeAnonymousState extends State<HomeAnonymous> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Não configurou o Siga ainda? 🤔",
+              "Configure sua conta do SIGA",
               style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: Text(
+                "Pra configurar sua conta é muito simples, digite o RG e senha utilizados no portal oficial da Fatec Campinas",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14),
+              ),
             ),
             SizedBox(height: 20),
             InputContainer(
