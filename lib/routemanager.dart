@@ -3,12 +3,13 @@ import 'package:sigascript/pages/dashboard.dart';
 import 'package:sigascript/pages/grades.dart';
 import 'package:sigascript/pages/home.dart';
 import 'package:sigascript/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class RouteManager extends StatefulWidget {
-  RouteManager({this.auth, this.onSignedOut});
-  final BaseAuth auth;
-  final VoidCallback onSignedOut;
+  final String pw;
+  final String rg;
 
+  RouteManager({this.rg, this.pw});
   @override
   _RouteManagerState createState() => _RouteManagerState();
 }
@@ -23,8 +24,7 @@ class _RouteManagerState extends State<RouteManager> {
 
   void _signOut() async {
     try {
-      await widget.auth.signOut();
-      widget.onSignedOut();
+      context.read<Auth>().signOut();
     } catch (e) {
       print(e);
     }
