@@ -31,8 +31,6 @@ class _HomeAnonymousState extends State<HomeAnonymous> {
   }
 
   void addSigaCredentials(CollectionReference users, user, rg, sigaPassword) {
-    print('rg' + rg.toString());
-    print('pw' + sigaPassword.toString());
     if (rg == null && sigaPassword == null) {
       users.doc(user).update({'isSigaConfigured': false});
     } else {
@@ -91,7 +89,7 @@ class _HomeAnonymousState extends State<HomeAnonymous> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: Text(
-                "Pra configurar sua conta é muito simples, digite o RG e senha utilizados no portal oficial da Fatec Campinas",
+                "Configure sua conta digitando o RG e senha utilizados no portal oficial da Fatec Campinas",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),

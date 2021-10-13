@@ -79,35 +79,6 @@ class Bot():
 
         return dict
         
-    def parse_grades(self):
-        time.sleep(2)
-        self.driver.get("https://siga.cps.sp.gov.br/aluno/notasparciais.aspx")
-        ##notas = driver.find_element_by_id("span_CTLACD_PLANOENSINOAVALIACAOPARCIALNOTA_000100040001")
-        notas = self.driver.find_element_by_tag_name('tbody')
-        html = notas.get_attribute("innerHTML")
-        soup = BeautifulSoup(html, 'html.parser')
-        list = []
-        for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
-            for grade in soup.find_all("tr", {"id": "Grid3ContainerRow_000"+str(i)}):
-                cont = soup.find("table", {"id": "Grid2Container_000" +str(i) + "Tbl"})
-                print(grade.text)
-                dict= {}
-                for item in cont.find_all("tr", {"class": "tableborderOdd"}):
-                    gradename = item.find("td", {"valign": "top"})
-                    grade_number = item.find("td", {"valign": "middle"})
-                    dict['id'] = str(i)
-                    try:
-                        dict['gradenumber'] = grade_number.text
-                    except:
-                        dict['gradenumber'] = "Sem Nota"
-                    dict['grade'] = grade.text
-                    dict['gradename'] = gradename.text
-                list.append(dict)
-                print(i)
-                print('\n')
-        self.driver.close()
-        return list
-
     #pega as faltas e presenças de cada aluno
     def absent(self):
         self.driver.get('https://siga.cps.sp.gov.br/aluno/faltasparciais.aspx')
@@ -117,7 +88,6 @@ class Bot():
         list = []
         for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
             for grade in soup.find_all("tr", {"id": "Grid1ContainerRow_000"+str(i)}):
-                #print(grade.text)
                 cont = grade.find("span", {"id": "span_vACD_DISCIPLINANOME_000" +str(i)})
                 presence = grade.find("span", {"id":"span_vPRESENCAS_000" + str(i)})
                 absence = grade.find("span", {"id":"span_vAUSENCIAS_000" + str(i)})
@@ -131,30 +101,23 @@ class Bot():
 
         return list
 
-    def parse_grades2(self):
+    def parse_grades(self):
         time.sleep(2)
         self.driver.get("https://siga.cps.sp.gov.br/aluno/notasparciais.aspx")
-        ##notas = driver.find_element_by_id("span_CTLACD_PLANOENSINOAVALIACAOPARCIALNOTA_000100040001")
         notas = self.driver.find_element_by_tag_name('tbody')
         html = notas.get_attribute("innerHTML")
         soup = BeautifulSoup(html, 'html.parser')
-        list = []
-        for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL):
-            dict = {}
-            grade_name = soup.find("tr", {"id": "Grid3ContainerRow_000" + str(i)}).text
-            dict['id'] = str(i)
-            #dict['grade_name'] = grade_name
-            for table in soup.find_all("table", {"id": "Grid2Container_000" +str(i)+"Tbl"}):
-                j=0
-                for grade in table.find_all("tr", {"class": "tableborderOdd"}):
-                    j = j  + 1
-                    if 'Avaliacao' in grade.text:
-                        newgrade = grade.text.replace('Avaliacao', '')  
-                    update = {"grade" + str(j): newgrade}
-                    dict.update(update)
-            list.append(dict)
-        
-        return list
+
+        return [
+            {   
+            'Sigla_Disciplina': soup.find("span", {"id": "span_CTLACD_DISCIPLINASIGLA_000"+str(i)}).text,
+            'Nome_Disciplina': soup.find("span", {"id": "span_CTLACD_DISCIPLINANOME_000"+str(i)}).text,
+            'Quantidade de Faltas': soup.find("span", {"id": "span_CTLACD_ALUNOHISTORICOITEMQTDFALTAS_000"+str(i)}).text,
+            'Frequencia': soup.find("span", {"id": "span_CTLLACD_ALUNOHISTORICOITEMFREQUENCIA_000"+str(i)}).text,
+            }
+        for i in range(self.GRID_CONTAINER_START, self.GRID_CONTAINER_FINAL)
+        ]
+            
     
     def merge_grades(self):
         absent = self.absent()

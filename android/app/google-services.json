@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "388111867736",
+    "project_id": "siga-fatec",
+    "storage_bucket": "siga-fatec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388111867736:android:ee0695a02668f157000f2d",
+        "android_client_info": {
+          "package_name": "com.example.sigascript"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388111867736-0go6tud1gdlpkjn1kjddd57u88cbqs8v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sigascript",
+            "certificate_hash": "33c008ad08e82825b0bbaf386459d038bdf0e7f9"
+          }
+        },
+        {
+          "client_id": "388111867736-voqa0jmrt9k16crc0b2916adhpkpbnsm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_ykwlL-zFyL1KPNxOCgSXLh4dXfCtQlg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388111867736-voqa0jmrt9k16crc0b2916adhpkpbnsm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

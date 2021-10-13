@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sigascript/pages/home.dart';
 import 'package:sigascript/pages/homeNotRegistered.dart';
 import 'package:sigascript/providers/student_provider.dart';
+import 'package:sigascript/routemanager.dart';
 import 'package:sigascript/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sigascript/services/validator.dart';
@@ -27,8 +28,41 @@ class _HomePageState extends State<HomePage> {
     studentData = Provider.of<StudentProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        title: Text("Fatec Campinas"),
         actions: [
-          IconButton(icon: Icon(Icons.logout), onPressed: _signOut),
+          Ink(
+            decoration: ShapeDecoration(
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.info),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: dialogBox(),
+                      actions: [
+                        ElevatedButton(
+                          child: Text("Ok"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          Ink(
+            decoration: ShapeDecoration(
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: _signOut,
+            ),
+          )
         ],
       ),
       body: Center(
@@ -48,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             }
-            return Home(
+            return RouteManager(
               rg: snapshot.data['rgSiga'],
               pw: snapshot.data['sigaPassword'],
             );
@@ -57,4 +91,33 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Widget dialogBox() {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+    ),
+    width: 300,
+    height: 350,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'imgs/cps.jpg',
+          width: 200,
+        ),
+        SizedBox(height: 20),
+        Text(
+          "Sobre o Projeto",
+          style: TextStyle(fontSize: 25),
+        ),
+        SizedBox(height: 10),
+        Text(
+          "Esse aplicativo não tem acesso ao banco de dados do SIGA, todos os dados são obtidos a partir de um programa.",
+          textAlign: TextAlign.center,
+        )
+      ],
+    ),
+  );
 }

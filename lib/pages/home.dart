@@ -4,6 +4,8 @@ import 'package:sigascript/components/loadingscreen.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:sigascript/components/profileBox.dart';
+import 'package:sigascript/pages/dashboard.dart';
+import 'package:sigascript/pages/grades.dart';
 
 Future<Profile> fetchProfile(String rg, String pw) async {
   var queryparams = {
@@ -84,19 +86,71 @@ class _HomeState extends State<Home> {
         future: futureProfile,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Center(
-              child: ProfileBox(
-                urlImage: snapshot.data.urlImage,
-                name: snapshot.data.name,
-                ra: snapshot.data.ra,
-                pp: snapshot.data.pp,
-                pr: snapshot.data.pr,
-                course: snapshot.data.courseName,
-                period: snapshot.data.period,
-              ),
+            return Column(
+              children: [
+                Center(
+                  child: ProfileBox(
+                    urlImage: snapshot.data.urlImage,
+                    name: snapshot.data.name,
+                    ra: snapshot.data.ra,
+                    pp: snapshot.data.pp,
+                    pr: snapshot.data.pr,
+                    course: snapshot.data.courseName,
+                    period: snapshot.data.period,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 60,
+                      width: 120,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => Grades()),
+                          );
+                        },
+                        child: Text(
+                          "Notas",
+                          style: TextStyle(fontSize: 17.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    SizedBox(
+                      height: 60,
+                      width: 120,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => Dashboard()),
+                          );
+                        },
+                        child: Text(
+                          "Dashboard",
+                          style: TextStyle(fontSize: 17.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 10),
+                  Text("Entrando no Siga")
+                ],
+              ),
+            );
           }
         },
       ),

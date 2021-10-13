@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sigascript/login.dart';
-import 'package:sigascript/pages/initialCarousel/carousel.dart';
 import 'package:sigascript/rootPage.dart';
 import 'package:sigascript/routemanager.dart';
 import 'package:sigascript/services/validator.dart';

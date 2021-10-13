@@ -5,9 +5,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<List<Grade>> fetchPhotos(http.Client client) async {
-  final response = await http
-      .get(Uri.http('https://siga-fatec.herokuapp.com/', '/presences'));
-
+  final response = await http.get(
+    Uri.https('siga-fatec.herokuapp.com', '/presences'),
+  );
   // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parsePhotos, response.body);
 }
@@ -23,29 +23,24 @@ class Grade {
   final String grade;
   final String presences;
   final String absences;
-  final String grade1;
-  final String grade2;
-  final String grade3;
-  final String grade4;
+  final String average;
+  final String sigla;
 
-  Grade(
-      {this.grade1,
-      this.grade2,
-      this.grade3,
-      this.grade4,
-      this.grade,
-      this.presences,
-      this.absences});
+  Grade({
+    this.average,
+    this.grade,
+    this.presences,
+    this.absences,
+    this.sigla,
+  });
 
   factory Grade.fromJson(Map<String, dynamic> json) {
     return Grade(
-        grade: json['grade'],
+        grade: json['Nome_Disciplina'],
         presences: json['presences'],
         absences: json['absences'],
-        grade1: json['grade1'],
-        grade2: json['grade2'],
-        grade3: json['grade3'],
-        grade4: json['grade4']);
+        average: json['Média'],
+        sigla: json['Sigla_Disciplina']);
   }
 }
 
@@ -57,16 +52,18 @@ class Grades extends StatefulWidget {
 class _GradesState extends State<Grades> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<List<Grade>>(
-        future: fetchPhotos(http.Client()),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
+    return Scaffold(
+      body: Center(
+        child: FutureBuilder<List<Grade>>(
+          future: fetchPhotos(http.Client()),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) print(snapshot.error);
 
-          return snapshot.hasData
-              ? GradesPage(grades: snapshot.data)
-              : CircularProgressIndicator();
-        },
+            return snapshot.hasData
+                ? GradesPage(grades: snapshot.data)
+                : CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }
@@ -110,10 +107,7 @@ class _GradesPageState extends State<GradesPage> {
                   grade: widget.grades[index].grade,
                   absences: widget.grades[index].absences,
                   presences: widget.grades[index].presences,
-                  grade1: widget.grades[index].grade1,
-                  grade2: widget.grades[index].grade2,
-                  grade3: widget.grades[index].grade3,
-                  grade4: widget.grades[index].grade4,
+                  average: widget.grades[index].average,
                 );
               },
             ),
@@ -125,20 +119,22 @@ class _GradesPageState extends State<GradesPage> {
 }
 
 class GradeContainer extends StatefulWidget {
-  const GradeContainer(
-      {Key key,
-      this.grade,
-      this.presences,
-      this.absences,
-      this.grade1,
-      this.grade2,
-      this.grade3,
-      this.grade4})
-      : super(key: key);
+  const GradeContainer({
+    Key key,
+    this.grade,
+    this.presences,
+    this.absences,
+    this.average,
+    this.grade1,
+    this.grade2,
+    this.grade3,
+    this.grade4,
+  }) : super(key: key);
 
   final String grade;
   final String presences;
   final String absences;
+  final String average;
   final String grade1;
   final String grade2;
   final String grade3;
@@ -165,13 +161,27 @@ class _GradeContainerState extends State<GradeContainer> {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              Text(
-                widget.grade,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Lato',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.grade,
+                  style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Média Final: " + widget.average,
+                  style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(
